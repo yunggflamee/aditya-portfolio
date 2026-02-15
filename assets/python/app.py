@@ -13,9 +13,15 @@ def contact():
 
         data = request.json
 
-        name = data["name"]
-        email = data["email"]
-        message = data["message"]
+        name = data.get("name")
+        email = data.get("email")
+        message = data.get("message")
+
+        if not name or not email or not message:
+            return jsonify({
+                "status": "error",
+                "message": "All fields are required"
+            }), 400
 
         send_email(name, email, message)
 
@@ -32,5 +38,10 @@ def contact():
         }), 500
 
 
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({"status": "ok"}), 200
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

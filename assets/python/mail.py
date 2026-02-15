@@ -1,9 +1,10 @@
 import smtplib
+import os
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-EMAIL = "yourfavworker2019@gmail.com"
-APP_PASSWORD = "iaif lozb spcr cdei"
+EMAIL = os.environ.get("EMAIL_USER", "yourfavworker2019@gmail.com")
+APP_PASSWORD = os.environ.get("EMAIL_PASS", "iaif lozb spcr cdei")
 
 
 def send_email(name, sender_email, message):
