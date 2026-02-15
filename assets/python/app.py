@@ -1,9 +1,19 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from mail import send_email
+import threading
 
 app = Flask(__name__)
 CORS(app)
+
+
+def send_email_async(name, email, message):
+    """Send email in background thread"""
+    try:
+        send_email(name, email, message)
+        print(f"Email sent successfully from {name}")
+    except Exception as e:
+        print(f"Email sending failed: {e}")
 
 
 @app.route("/contact", methods=["POST"])
@@ -23,8 +33,15 @@ def contact():
                 "message": "All fields are required"
             }), 400
 
-        send_email(name, email, message)
+        # Send email in background thread
+        thread = threading.Thread(
+            target=send_email_async,
+            args=(name, email, message)
+        )
+        thread.daemon = True
+        thread.start()
 
+        # Respond immediately without waiting
         return jsonify({
             "status": "success",
             "message": "Email sent successfully"
