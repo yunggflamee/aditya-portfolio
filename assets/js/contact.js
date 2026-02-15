@@ -5,17 +5,18 @@ form.addEventListener("submit", async e => {
     e.preventDefault();
 
     const button = form.querySelector("button");
+    const buttonText = button.querySelector(".button-text");
 
-    button.innerText = "Sending...";
+    buttonText.innerText = "Sending...";
     button.disabled = true;
 
     const data = {
-
         name: form.name.value,
         email: form.email.value,
         message: form.message.value
-
     };
+
+    console.log("Sending data:", data); // Debug log
 
     try{
 
@@ -27,28 +28,26 @@ form.addEventListener("submit", async e => {
             body:JSON.stringify(data)
         });
 
+        console.log("Response status:", res.status); // Debug log
+
         const result = await res.json();
+        console.log("Response data:", result); // Debug log
 
         if(result.status === "success"){
-
-            button.innerText = "Sent ✓";
+            buttonText.innerText = "Sent ✓";
             form.reset();
-
         }else{
-
-            button.innerText = "Failed";
-
+            buttonText.innerText = "Failed";
         }
 
-    }catch{
-
-        button.innerText = "Error";
-
+    }catch(error){
+        console.error("Error:", error); // Debug log
+        buttonText.innerText = "Error";
     }
 
     setTimeout(()=>{
-        button.innerText="Send Message";
-        button.disabled=false;
+        buttonText.innerText = "Send Message";
+        button.disabled = false;
     },2000);
 
 });
