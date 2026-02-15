@@ -9,30 +9,37 @@ CORS(app)
 
 def send_email_async(name, email, message):
     """Send email in background thread"""
+    print(f"[THREAD] Starting email send for {name}")
     try:
-        send_email(name, email, message)
-        print(f"Email sent successfully from {name}")
+        result = send_email(name, email, message)
+        print(f"[THREAD] Email sent successfully from {name}")
     except Exception as e:
-        print(f"Email sending failed: {e}")
+        print(f"[THREAD ERROR] Email sending failed: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 @app.route("/contact", methods=["POST"])
 def contact():
 
     try:
-
+        print("[ROUTE] Contact endpoint hit")
+        
         data = request.json
+        print(f"[ROUTE] Received data: {data}")
 
         name = data.get("name")
         email = data.get("email")
         message = data.get("message")
 
         if not name or not email or not message:
+            print("[ROUTE] Missing required fields")
             return jsonify({
                 "status": "error",
                 "message": "All fields are required"
             }), 400
 
+        print(f"[ROUTE] Creating thread to send email from {name}")
         # Send email in background thread
         thread = threading.Thread(
             target=send_email_async,
@@ -40,6 +47,7 @@ def contact():
         )
         thread.daemon = True
         thread.start()
+        print("[ROUTE] Thread started")
 
         # Respond immediately without waiting
         return jsonify({
@@ -48,7 +56,10 @@ def contact():
         })
 
     except Exception as e:
-
+        print(f"[ROUTE ERROR] {e}")
+        import traceback
+        traceback.print_exc()
+        
         return jsonify({
             "status": "error",
             "message": str(e)
