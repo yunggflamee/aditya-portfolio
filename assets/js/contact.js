@@ -20,13 +20,10 @@ form.addEventListener("submit", async e => {
     try{
 
         const res = await fetch("https://aditya-contact-backend.onrender.com/contact",{
-
             method:"POST",
-
             headers:{
                 "Content-Type":"application/json"
             },
-
             body:JSON.stringify(data)
         });
 
