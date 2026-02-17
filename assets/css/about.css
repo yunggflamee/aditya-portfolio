@@ -415,3 +415,30 @@
         font-size: 14px;
     }
 }
+
+.projects-placeholder {
+  background: linear-gradient(135deg, #415A77, #778DA9); /* professional gradient */
+  color: #E0E1DD;
+  text-align: center;
+  padding: 60px 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  margin: 40px auto;
+  max-width: 600px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.projects-placeholder:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.projects-placeholder h3 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+}
+
+.projects-placeholder p {
+  font-size: 1.1rem;
+  color: #E0E1DD;
+}
