@@ -18,3 +18,5 @@ function updateBlob(){
 
 window.addEventListener("resize", updateBlob);
 window.addEventListener("load", updateBlob);
+
+
