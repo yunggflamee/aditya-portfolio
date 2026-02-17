@@ -36,3 +36,16 @@ document.querySelectorAll('.project-card').forEach(card => {
     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     projectObserver.observe(card);
 });
+
+const observerOptions = {
+    threshold: 0.2,
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+        }
+    });
+}, observerOptions);
